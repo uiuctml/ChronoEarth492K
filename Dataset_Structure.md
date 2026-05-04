@@ -1,0 +1,20 @@
+ChronoEarth-492K/
+ ├── dataset/
+ │     ├── metadata.parquet
+ │     ├── <UTM_zone>/
+ │     │     ├── <UID>/
+ │     │     │     ├── <UID>_<timestamp>.TIF
+ │     │     │     └── ...
+ │     │     └── ...
+ │     └── ...
+ └── benchmark_labels/
+       ├── <dataset_name>/
+       │     ├── *_metadata_static.parquet
+       │     ├── *_metadata_sh.parquet
+       │     ├── *_metadata_lh.parquet
+       │     └── labels/
+       │           ├── <UID>/
+       │           │      ├── <dataset_name>_<year>.tif
+       │           │      └── ...
+       │           └── ...
+       └── ...

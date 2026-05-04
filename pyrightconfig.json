@@ -1,0 +1,19 @@
+{
+    "exclude": [
+      "results",
+      "data",
+    ],
+
+    "typeCheckingMode": "basic",
+    "useLibraryCodeForTypes": true,
+  
+    "reportOperatorIssue": "none",
+  
+    "reportUnknownMemberType": "none",
+    "reportUnknownVariableType": "none",
+    "reportUnknownArgumentType": "none",
+    "reportUnknownParameterType": "none",
+    "reportUnknownLambdaType": "none",
+  
+    "reportMissingTypeStubs": "none"
+}
