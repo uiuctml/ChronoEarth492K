@@ -10,7 +10,6 @@ ChronoEarth-492K/
  └── benchmark_labels/
        ├── <dataset_name>/
        │     ├── *_metadata_static.parquet
-       │     ├── *_metadata_sh.parquet
        │     ├── *_metadata_lh.parquet
        │     └── labels/
        │           ├── <UID>/
