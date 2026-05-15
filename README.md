@@ -1,83 +1,218 @@
 <div align="center">
 
-<h1>Towards Scalable Foundation Model for Multi-modal and Hyperspectral Geospatial Data</h1>
+<h1>ChronoEarth-492K</h1>
+<h3>A Large Scale and Long Horizon Spatiotemporal Hyperspectral Earth Observation Dataset and Benchmark</h3>
 
-[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://github.com/uiuctml/GeospatialFM)
-[![arXiv](https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv)](https://arxiv.org/abs/2503.12843)
-[![Hugging Face](https://img.shields.io/badge/HuggingFace-GFMBench-purple?logo=huggingface&logoColor=yellow)](https://huggingface.co/GFM-Bench)
-[![GitHub](https://img.shields.io/badge/GitHub-GFMBench-green?logo=github&logoColor=white)](https://github.com/uiuctml/GFM-Bench)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://uiuctml.github.io/ChronoEarth492K)
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv)](https://arxiv.org/abs/PLACEHOLDER)
+[![Hugging Face](https://img.shields.io/badge/HuggingFace-Dataset-purple?logo=huggingface&logoColor=yellow)](https://huggingface.co/GFM-Bench/datasets)
+[![GitHub](https://img.shields.io/badge/GitHub-ChronoEarth492K-green?logo=github&logoColor=white)](https://github.com/uiuctml/ChronoEarth492K)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 </div>
 
-This is the official repository for the paper 
-"_Towards Scalable Foundation Model for Multi-modal and Hyperspectral Geospatial Data_".  
+**ChronoEarth-492K** is a large-scale, temporally-rich hyperspectral remote sensing dataset built from EO-1 Hyperion imagery. It spans **492K+ locations** across **9 global regions**, covering **155 hyperspectral bands** from 447 nm to 2365 nm, with multiple revisits per location for temporal analysis.
 
-Authors: 
+Authors:
 [Haozhe Si](https://ehzoahis.github.io/),
-Yuxuan Wan, 
-[Minh Do](https://minhdo.ece.illinois.edu/), 
-[Deepak Vasisht](https://deepakv.web.illinois.edu/), 
-[Han Zhao](https://hanzhaoml.github.io/), 
-Hendrik F. Hamann.
+Yuxuan Wan,
+Yuqing Wang,
+[Minh Do](https://minhdo.ece.illinois.edu/),
+[Han Zhao](https://hanzhaoml.github.io/).
 
-## Overview
-This repository provides the implementation of **the Low-rank Efficient Spatial-Spectral Vision Transformer (LESS ViT)**. LESS ViT is a scalable, efficient vision transformer designed specifically for multi-modal and hyperspectral geospatial raster data.
+---
 
-## GFM-Bench
-We also constructed a comprehensive benchmark for geospatial raster data, **GFM-Bench**, which incorporates 3 classification datasets and 4 semantic segmentation datasets. For more detailed information about GFM-Bench, please see [![Hugging Face](https://img.shields.io/badge/HuggingFace-GFMBench-purple?logo=huggingface&logoColor=yellow)](https://huggingface.co/GFM-Bench) and also our GitHub repository     [![GitHub](https://img.shields.io/badge/GitHub-GFMBench-green?logo=github&logoColor=white)](https://github.com/uiuctml/GFM-Bench).
+## Dataset at a Glance
 
-## Pre-training
-We pre-trained the **LESS ViT** model using **Hyper-MAE** on the SSL4EO-S12 dataset for 300 epochs (on 8 &times; NVIDIA A6000 GPUs).
+| Property | Value |
+|---|---|
+| **Locations** | 492K+ unique spatial locations |
+| **Spectral Bands** | 155 hyperspectral bands (447–2365 nm) |
+| **Spatial Resolution** | 30 m / pixel |
+| **Temporal Coverage** | Multi-year, multiple revisits per location |
+| **Global Regions** | 9 (AC, AF, EA, EU, LA, NA, OC, SEA, SWA) |
+| **Sensor** | EO-1 Hyperion |
 
-To launch pre-training, use the LESS ViT launcher:
-```shell
-bash launch_train_less.sh
+### Spectral Groups
+
+| Group | Bands | Wavelength Range | # Channels |
+|---|---|---|---|
+| VNIR | B010–B057 | 447–925 nm | 48 |
+| SWIR1 | B081–B097 | 952–1114 nm | 17 |
+| SWIR2 | B101–B119 | 1154–1336 nm | 19 |
+| SWIR3 | B134–B164 | 1487–1790 nm | 31 |
+| SWIR4 | B182–B221 | 1971–2365 nm | 40 |
+| **All** | | **447–2365 nm** | **155** |
+
+### Benchmark Datasets
+
+ChronoEarth-492K includes benchmark labels for six geospatial tasks, supporting both static and temporal evaluation:
+
+| Dataset | Task | Region | Classes |
+|---|---|---|---|
+| **NLCD** | Land cover segmentation | North America | 16 |
+| **CDL** | Crop type mapping | North America | 257 |
+| **CORINE** | Land cover segmentation | Europe | 44 |
+| **CLCD** | Land cover segmentation | China | 9 |
+| **GFC** | Forest cover change detection | Global | 2 |
+| **ISDASoil** | Soil property prediction | Africa | Continuous |
+
+---
+
+## Getting Started
+
+### Installation
+
+```bash
+git clone https://github.com/uiuctml/ChronoEarth492K.git
+cd ChronoEarth492K
+pip install -r requirements.txt
 ```
-Set `DATA_DIR` to the local dataset location if it is not under `./data/EO1H`.
 
-## Fine-tuning
-We fine-tuned and evaluated our pre-trained LESS ViT on **GFM-Bench**. For detailed implementation of fine-tuning experiments, please refer to Appendix C section in our [paper](https://arxiv.org/pdf/2503.12843).
+### Download the Dataset
 
-To launch fine-tuning experiments, run the following command:
-```shell
-python3 sweep_finetune.py \
-    --dataset ${DATASET_NAME} \
-    --root_dir ${ROOT_DIR} \
-    --modal ${MODAL} \
+The dataset is hosted on Hugging Face. Download it using the provided utility:
+
+```bash
+python dataset_tools/download_data_hf.py --cache_dir /path/to/data
 ```
 
-To launch linear probing experiments, run the following command:
-```shell
-python3 sweep_finetune.py \
-    --dataset ${DATASET_NAME} \
-    --root_dir ${ROOT_DIR} \
-    --modal ${MODAL} \
-    --lp
+Or load it directly with the `datasets` library:
+
+```python
+from datasets import load_dataset
+ds = load_dataset("GFM-Bench/ChronoEarth492K", split="train")
 ```
 
-- `--dataset ${DATASET_NAME}`: Name of the dataset to use.
-- `--root_dir ${ROOT_DIR}`: Directory to save checkpoints and results.
-- `--modal ${MODAL}`: The fine-tuning modality (`radar` `optical`, or `multi`). Note: currently only BigEartnet and DFC2020 datasets support `radar` or `multi` fine-tuning in GFM-Bench.
+### Basic Usage
 
-## Model Weights
-We will be uploading pre-trained model checkpoints soon. Stay tuned! 😀
+**Static dataset (single image per location):**
 
-## Data and Checkpoints
-Datasets, derived metadata, experiment results, and model checkpoints are not tracked in this repository. Put local files under `data/` and `checkpoints/`, or pass explicit paths with CLI flags such as `--data_dir`, `--pretrained_model_path`, and `--temporal_pretrained_model_path`.
+```python
+from ChronoEarth import ChronoEarth
+
+dataset = ChronoEarth(
+    split='train',
+    cache_dir='/path/to/data',
+    regions=['NA', 'EU'],             # subset of global regions
+    channel_groups=['VNIR', 'SWIR1'], # subset of spectral groups
+)
+
+sample = dataset[0]
+# sample['optical']              -> np.ndarray (C, H, W)
+# sample['optical_channel_wv']   -> list of wavelengths [nm]
+# sample['spatial_resolution']   -> 30 (meters)
+```
+
+**Temporal dataset (time-series per location):**
+
+```python
+from ChronoEarth import TemporalChronoEarth
+
+dataset = TemporalChronoEarth(
+    split='train',
+    cache_dir='/path/to/data',
+    regions='NA',
+    channel_groups='VNIR',
+    num_frames=8,   # max frames to sample per location (-1 for all)
+    frames_lb=3,    # only include locations with ≥3 timestamps
+)
+
+sample = dataset[0]
+# sample['optical']    -> np.ndarray (T, C, H, W)
+# sample['timestamp']  -> np.ndarray (T,)
+# sample['num_frames'] -> int
+```
+
+**Benchmark datasets:**
+
+```python
+from ChronoEarth.benchmarks import StaticTask, TemporalTask
+
+# Static benchmark
+dataset = StaticTask(
+    dataset_name='NLCD',
+    split='train',
+    metadata_path='/path/to/benchmark_labels/NLCD/metadata_static.parquet',
+    image_dir='/path/to/dataset',
+    label_dir='/path/to/benchmark_labels/NLCD/labels',
+    BANDS=[30, 24, 16],  # RGB from VNIR
+)
+```
+
+---
+
+## Dataset Structure
+
+```
+ChronoEarth-492K/
+ ├── metadata.parquet              # global index (location_uid, region, timestamp, image_path)
+ ├── dataset/
+ │     └── <UTM_zone>/
+ │           └── <UID>/
+ │                 ├── <UID>_<timestamp>.TIF
+ │                 └── ...
+ └── benchmark_labels/
+       └── <dataset_name>/
+             ├── *_metadata_static.parquet
+             ├── *_metadata_sh.parquet   # short-horizon temporal
+             ├── *_metadata_lh.parquet   # long-horizon temporal
+             └── labels/
+                   └── <UID>/
+                         ├── <dataset_name>_<year>.tif
+                         └── ...
+```
+
+See [`docs/Dataset_Structure.md`](docs/Dataset_Structure.md) for the full schema.
+
+---
+
+## Pretraining
+
+Scripts for pretraining geospatial foundation models on ChronoEarth-492K are provided under `pretraining/`. Both static and temporal pretraining are supported:
+
+```bash
+# Static pretraining
+bash scripts/pretraining/launch_static.sh
+
+# Temporal pretraining
+bash scripts/pretraining/launch_temporal.sh
+```
+
+## Evaluation
+
+Fine-tuning and evaluation on the benchmark datasets:
+
+```bash
+# Fine-tuning sweep
+python evaluation/sweep_finetune.py \
+    --dataset NLCD \
+    --root_dir /path/to/checkpoints \
+    --modal optical
+
+# Temporal fine-tuning
+python evaluation/launchers/launch_temporal_finetune_sweep.py \
+    --dataset GFC \
+    --root_dir /path/to/checkpoints
+```
+
+---
 
 ## Citation
-If you found our project helpful, please cite our paper:
-```
-@misc{si2025scalablefoundationmodelmultimodal,
-      title={Towards Scalable Foundation Model for Multi-modal and Hyperspectral Geospatial Data}, 
-      author={Haozhe Si and Yuxuan Wan and Minh Do and Deepak Vasisht and Han Zhao and Hendrik F. Hamann},
-      year={2025},
-      eprint={2503.12843},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2503.12843}, 
+
+If you find ChronoEarth-492K useful in your research, please cite our paper:
+
+```bibtex
+@article{chronoearth492k,
+  title   = {ChronoEarth-492K: A Large Scale and Long Horizon Spatiotemporal Hyperspectral Earth Observation Dataset and Benchmark},
+  author  = {Si, Haozhe and Wan, Yuxuan and Wang, Yuqing and Do, Minh and Zhao, Han},
+  journal = {arXiv preprint arXiv:PLACEHOLDER},
+  year    = {2025}
 }
 ```
 
-## Contact Authors
-[Haozhe Si](haozhes3@illinois.edu), [Han Zhao](hanzhao@illinois.edu)
+---
+
+## Contact
+
+[Haozhe Si](mailto:haozhes3@illinois.edu) · [Han Zhao](mailto:hanzhao@illinois.edu)

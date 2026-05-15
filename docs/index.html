@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChronoEarth-492K</title>
+  <meta name="description" content="ChronoEarth-492K: A Large-Scale Temporal Hyperspectral Dataset for Global Earth Observation" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --surface2: #f1f3f5;
+      --border: #dee2e6;
+      --text: #212529;
+      --muted: #6c757d;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --accent-border: #bfdbfe;
+      --green: #16a34a;
+      --green-bg: #f0fdf4;
+      --red: #dc2626;
+      --orange: #ea580c;
+      --purple: #7c3aed;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.75;
+      font-size: 15.5px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { font-weight: 600; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; align-items: center; gap: 0;
+      height: 48px; overflow-x: auto;
+    }
+    .nav-inner a {
+      white-space: nowrap;
+      padding: 0 14px; height: 48px;
+      display: flex; align-items: center;
+      font-size: 13px; font-weight: 500;
+      color: var(--muted); border-bottom: 2px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .nav-inner a:hover { color: var(--accent); text-decoration: none; border-color: var(--accent); }
+
+    /* ── Nav dropdown ── */
+    .nav-dropdown-toggle {
+      white-space: nowrap;
+      padding: 0 14px; height: 48px;
+      display: flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 500;
+      color: var(--muted); border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+      user-select: none; flex-shrink: 0;
+    }
+    .nav-dropdown-toggle.open,
+    .nav-dropdown-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    .nav-dropdown-toggle svg { width: 10px; height: 10px; fill: currentColor; margin-top: 1px; transition: transform .2s; }
+    .nav-dropdown-toggle.open svg { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      display: none;
+      position: fixed;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+      min-width: 200px;
+      z-index: 999;
+      overflow: hidden;
+    }
+    .nav-dropdown-menu.open { display: block; }
+    .nav-dropdown-menu a {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      font-size: 13px; font-weight: 500;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      height: auto;
+      transition: background .12s;
+    }
+    .nav-dropdown-menu a:last-child { border-bottom: none; }
+    .nav-dropdown-menu a:hover { background: var(--accent-light); color: var(--accent); text-decoration: none; }
+
+    /* ── Layout ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Hero ── */
+    .hero {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 72px 0 56px;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      border-radius: 100px; padding: 4px 14px;
+      margin-bottom: 20px;
+    }
+    .publication-title {
+      font-size: clamp(22px, 3.2vw, 34px);
+      font-weight: 700; line-height: 1.3;
+      letter-spacing: -.01em;
+      max-width: 820px; margin: 0 auto 20px;
+      color: #1a1a2e;
+    }
+    .publication-title .title-name {
+      font-size: clamp(30px, 4.5vw, 46px);
+      display: block; margin-bottom: 4px;
+    }
+    .publication-authors {
+      font-size: 16px; line-height: 2;
+      margin-bottom: 6px;
+    }
+    .author-block { display: inline-block; margin: 0 2px; }
+    .publication-authors a {
+      color: hsl(204, 86%, 40%);
+      font-weight: 500;
+    }
+    .publication-authors a:hover { text-decoration: underline; }
+    .publication-venue {
+      font-size: 14px; color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── Pub link buttons (GeospatialFM style) ── */
+    .publication-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .link-block a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      background: #363636;
+      color: #fff;
+      font-size: 14px; font-weight: 500;
+      transition: background .15s, transform .1s;
+      border: none;
+    }
+    .link-block a:hover { background: #222; transform: translateY(-1px); text-decoration: none; }
+    .link-block a .icon { font-size: 15px; line-height: 1; display: flex; align-items: center; }
+    .link-block a .icon img { height: 18px; width: auto; vertical-align: middle; }
+    /* ── Legacy btn (used in citation section) ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px; border-radius: 9999px;
+      font-size: 13.5px; font-weight: 600;
+      transition: background .15s, transform .1s;
+      border: none; cursor: pointer; background: #363636; color: #fff;
+    }
+    .btn:hover { background: #222; transform: translateY(-1px); text-decoration: none; }
+    .btn svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
+    /* ── Sections ── */
+    main { padding: 0; }
+    section { padding: 64px 0; }
+    section:nth-child(even) { background: var(--surface); }
+
+    h2 {
+      font-size: 24px; font-weight: 700;
+      letter-spacing: -.015em; margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    h3 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; color: #1a1a2e; }
+    p  { margin-bottom: 14px; color: #374151; }
+
+    /* ── Abstract ── */
+    .abstract-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #374151;
+    }
+
+    /* ── Contributions ── */
+    .contrib-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .contrib-list li {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+    .contrib-num {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      background: var(--accent); color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ── Stats grid ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px; margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .stat-num {
+      font-size: 26px; font-weight: 700;
+      color: var(--accent); line-height: 1; margin-bottom: 6px;
+    }
+    .stat-label { font-size: 12.5px; color: var(--muted); font-weight: 500; }
+
+    /* ── Figures ── */
+    .fig-wrap {
+      margin: 28px 0;
+      text-align: center;
+    }
+    .fig-wrap img {
+      max-width: 100%;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .fig-wrap img.no-border { border: none; box-shadow: none; }
+    .fig-caption {
+      margin-top: 10px;
+      font-size: 13.5px; color: var(--muted);
+      max-width: 720px; margin-left: auto; margin-right: auto;
+    }
+    .fig-caption strong { color: var(--text); }
+
+    .fig-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px; margin: 20px 0;
+    }
+    .fig-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin: 20px 0;
+    }
+    @media (max-width: 700px) {
+      .fig-grid-2 { grid-template-columns: 1fr; }
+      .fig-grid-4 { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── Pipeline steps ── */
+    .pipeline-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px; margin: 24px 0;
+    }
+    .step-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+    }
+    .step-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 8px;
+    }
+    .step-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .step-title { font-size: 14px; font-weight: 600; }
+    .step-body  { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+    /* ── Tables ── */
+    .table-scroll { overflow-x: auto; margin: 16px 0; border-radius: var(--radius); box-shadow: var(--shadow); }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg); }
+    thead { background: #1e1e2e; color: #cdd6f4; }
+    th {
+      font-weight: 600; text-align: center;
+      padding: 11px 14px;
+      white-space: nowrap; font-size: 12.5px; letter-spacing: .02em;
+    }
+    th.left { text-align: left; }
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: center; vertical-align: middle;
+    }
+    td.left { text-align: left; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8f9ff; }
+    .best { font-weight: 700; color: var(--accent); }
+    .degen { color: #b91c1c; font-style: italic; }
+    .sep-row td { background: var(--surface2); font-weight: 600; font-size: 12px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; border-top: 2px solid var(--border); }
+    .highlight-row td { background: #eff6ff; }
+
+    /* ── Dataset comparison badge ── */
+    .ours-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px; font-weight: 700;
+      padding: 1px 7px; border-radius: 100px;
+      vertical-align: middle; margin-left: 5px;
+    }
+    .check   { color: var(--green); font-weight: 700; }
+    .cross   { color: #9ca3af; }
+
+    /* ── Task badge ── */
+    .task-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 600;
+      padding: 2px 9px; border-radius: 100px;
+    }
+    .badge-static  { background: #dbeafe; color: #1e40af; }
+    .badge-sh      { background: #d1fae5; color: #065f46; }
+    .badge-lh      { background: #fce7f3; color: #9d174d; }
+
+    /* ── Spectral group badges ── */
+    .sg { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 100px; }
+    .sg-vnir  { background:#d1fae5; color:#065f46; }
+    .sg-swir1 { background:#dbeafe; color:#1e40af; }
+    .sg-swir2 { background:#ede9fe; color:#5b21b6; }
+    .sg-swir3 { background:#fce7f3; color:#9d174d; }
+    .sg-swir4 { background:#ffedd5; color:#9a3412; }
+
+    /* ── Citation ── */
+    .citation-box {
+      background: #1e1e2e; color: #cdd6f4;
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 13px; line-height: 1.75;
+      overflow-x: auto; white-space: pre;
+    }
+
+    /* ── Section divider ── */
+    .sub-label {
+      display: inline-block;
+      font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      border-radius: 100px; padding: 3px 12px;
+      margin-bottom: 10px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 13px; color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .pipeline-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#abstract">Abstract</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#dataset">Dataset</a>
+    <a href="#benchmark">Benchmark</a>
+    <a href="#results">Results</a>
+    <a href="#citation">Citation</a>
+    <div class="nav-dropdown-toggle" id="relatedToggle" onclick="toggleRelated(event)">
+      Related Works
+      <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+    </div>
+    <div class="nav-dropdown-menu" id="relatedMenu">
+      <a href="https://uiuctml.github.io/GeospatialFM/" target="_blank">
+        <i class="fas fa-external-link-alt" style="font-size:11px; opacity:.5;"></i>
+        LESSViT
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<header class="hero">
+  <div class="container">
+    <h1 class="publication-title">
+      <span class="title-name">ChronoEarth-492K:</span>
+      A Large Scale and Long Horizon<br />
+      Spatiotemporal Hyperspectral Earth Observation<br />
+      Dataset and Benchmark
+    </h1>
+
+    <div class="publication-authors">
+      <span class="author-block"><a href="https://ehzoahis.github.io/">Haozhe Si</a><sup>1</sup>,</span>
+      <span class="author-block">Yuxuan Wan<sup>2</sup>,</span>
+      <span class="author-block">Yuqing Wang<sup>2</sup>,</span>
+      <span class="author-block"><a href="https://minhdo.ece.illinois.edu/">Minh Do</a><sup>1</sup>,</span>
+      <span class="author-block"><a href="https://hanzhaoml.github.io/">Han Zhao</a><sup>2</sup></span>
+    </div>
+    <div class="publication-authors">
+      <span class="author-block"><sup>1</sup>Dept. of Electrical and Computer Engineering,</span>
+      <span class="author-block"><sup>2</sup>Siebel School of Computing and Data Science</span>
+    </div>
+    <p class="publication-venue">University of Illinois Urbana-Champaign</p>
+
+    <div class="publication-links">
+      <span class="link-block">
+        <a href="https://arxiv.org/abs/PLACEHOLDER" target="_blank">
+          <span class="icon"><i class="ai ai-arxiv"></i></span>
+          <span>arXiv</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href="https://huggingface.co/GFM-Bench/datasets" target="_blank">
+          <span class="icon"><img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" /></span>
+          <span>Dataset</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href="https://github.com/uiuctml/ChronoEarth492K" target="_blank">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>Code</span>
+        </a>
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main>
+
+<!-- ── Abstract ── -->
+<section id="abstract">
+  <div class="container">
+    <h2>Abstract</h2>
+    <div class="abstract-box">
+      Hyperspectral imaging (HSI) provides dense spectral information for the Earth's surface, enabling material-level understanding of land cover and ecosystem dynamics. Despite recent progress in hyperspectral self-supervised learning (SSL), existing datasets remain temporally shallow, limiting the development of long-horizon spatiotemporal modeling. To address this gap, we introduce <strong>ChronoEarth-492K</strong>, the first large-scale, temporally calibrated hyperspectral SSL dataset built upon NASA's EO-1 Hyperion mission — the world's longest continuous hyperspectral archive (2001–2017). ChronoEarth-492K comprises <strong>492,354 radiometrically harmonized patches</strong> across 185,398 global locations over 17 years, with 28,786 sites containing multi-temporal sequences (&ge;3 observations) that enable both short- and long-horizon temporal analysis. Building on this foundation, we establish the <strong>ChronoEarth-Benchmark</strong>, a unified evaluation suite spanning static, short-horizon, and long-horizon temporal tasks, constructed from six open-source geospatial products covering land cover, crop type, forest dynamics, and soil properties. We further introduce a standardized evaluation protocol and report extensive baseline results across state-of-the-art hyperspectral foundation models.
+    </div>
+
+    <h3>Key Contributions</h3>
+    <ul class="contrib-list">
+      <li>
+        <span class="contrib-num">1</span>
+        <div><strong>ChronoEarth-492K dataset</strong> — the first large-scale hyperspectral SSL dataset offering 17 years of temporally calibrated global observations from NASA EO-1 Hyperion (2001–2017), with 492,354 patches at 30 m resolution across 9 global regions.</div>
+      </li>
+      <li>
+        <span class="contrib-num">2</span>
+        <div><strong>ChronoEarth-Benchmark</strong> — a unified evaluation suite with static, short-horizon, and long-horizon temporal tasks across six geospatial products, with leak-proof spatial splits designed for realistic OOD evaluation.</div>
+      </li>
+      <li>
+        <span class="contrib-num">3</span>
+        <div><strong>Extensive baselines</strong> — comprehensive empirical evaluation of state-of-the-art hyperspectral foundation models (SpectralViT, LESSViT, DOFA, HyperSigma, SatMAE, DINOv3) under static, temporal, and cross-satellite transfer settings.</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Pipeline ── -->
+<section id="pipeline">
+  <div class="container">
+    <h2>Data Collection &amp; Processing Pipeline</h2>
+
+    <p>ChronoEarth-492K is built from the complete NASA EO-1 Hyperion Level-1T archive (May 2001 – March 2017), the longest-running spaceborne hyperspectral mission to date. The pipeline consists of four stages:</p>
+
+    <div class="pipeline-steps">
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon" style="background:#dbeafe;">🛰️</div>
+          <div class="step-title">1. Data Acquisition</div>
+        </div>
+        <div class="step-body">All Level-1T terrain-corrected Hyperion scenes with &lt;10% cloud cover are queried from the USGS EROS archive via the M2M API. Nine continental regions are defined to ensure geographic balance and limit oceanic coverage.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon" style="background:#ede9fe;">🌈</div>
+          <div class="step-title">2. Spectral Harmonization</div>
+        </div>
+        <div class="step-body">Each scene contains 242 raw bands. Following established protocols, unstable and low-signal bands (water absorption at ~1400 nm and ~1900 nm, instrument noise bands) are removed, retaining <strong>155 spectrally consistent bands</strong> across all scenes.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon" style="background:#d1fae5;">🗺️</div>
+          <div class="step-title">3. Global Patching &amp; Indexing</div>
+        </div>
+        <div class="step-body">Scenes are resampled to 30 m and divided into non-overlapping <strong>128×128 pixel patches</strong> aligned to a fixed UTM-zone global grid. Each patch receives a deterministic UID encoding its UTM zone, column, and row, enabling consistent cross-timestamp alignment.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon" style="background:#ffedd5;">⏱️</div>
+          <div class="step-title">4. Temporal Sequence Construction</div>
+        </div>
+        <div class="step-body">Patches sharing the same UID but different timestamps are grouped into <strong>spatiotemporal sequences</strong>. This yields 56,491 locations with ≥2 observations and 28,786 locations with ≥3 timestamps, supporting both short- and long-horizon modeling.</div>
+      </div>
+    </div>
+
+    <div class="fig-wrap">
+      <img src="assets/global_patching-1.png" alt="Global patching and spatiotemporal indexing pipeline" />
+      <p class="fig-caption"><strong>Figure:</strong> Global Patching and Spatial Alignment. (a) Raw EO-1 Hyperion observation. (b) Global patching using a UTM-zone–specific grid, with each patch assigned a unique spatial UID. (c) Spatial alignment of patches sharing the same UID across multiple observations. (d) Formation of spatiotemporal sequences by aggregating aligned samples from different timestamps.</p>
+    </div>
+
+    <h3>Benchmark Label Processing</h3>
+    <p>To construct the ChronoEarth-Benchmark, we align six geospatial label products with the hyperspectral imagery using the UID-based spatial index. Each label layer is projected to the corresponding UTM grid, and all valid location–label pairs are retained as supervision targets — enabling multi-year temporal task construction. Two quality filters are applied:</p>
+    <ul style="padding-left:20px; color:#374151; margin-bottom:14px;">
+      <li style="margin-bottom:6px;"><strong>Class filtering:</strong> Labels with frequency below 1% are grouped into a background class to reduce noise from rare categories.</li>
+      <li><strong>Entropy filtering:</strong> Patches with normalized Shannon entropy below τ = 0.1 are discarded, retaining only semantically informative samples.</li>
+    </ul>
+    <p>Leak-proof train/val/test splits are generated by a <strong>distance-aware grouping strategy</strong> based on EO-1 orbital swaths. Patches from the same acquisition are grouped into spatial units, and overlapping units are merged into connected components. Splits are assigned at the component level, inducing a spatial OOD setting where test samples come from geographically distinct regions.</p>
+  </div>
+</section>
+
+<!-- ── Dataset ── -->
+<section id="dataset">
+  <div class="container">
+    <h2>Dataset Statistics</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">492K</div><div class="stat-label">Total patches</div></div>
+      <div class="stat-card"><div class="stat-num">185K</div><div class="stat-label">Unique locations</div></div>
+      <div class="stat-card"><div class="stat-num">28.8K</div><div class="stat-label">Multi-temporal sites (≥3 obs.)</div></div>
+      <div class="stat-card"><div class="stat-num">17 yrs</div><div class="stat-label">Temporal span (2001–2017)</div></div>
+      <div class="stat-card"><div class="stat-num">155</div><div class="stat-label">Spectral bands</div></div>
+      <div class="stat-card"><div class="stat-num">30 m</div><div class="stat-label">Spatial resolution</div></div>
+      <div class="stat-card"><div class="stat-num">9</div><div class="stat-label">Global regions</div></div>
+      <div class="stat-card"><div class="stat-num">128²</div><div class="stat-label">Patch size (pixels)</div></div>
+    </div>
+
+    <h3>Global Coverage</h3>
+    <div class="fig-wrap">
+      <img src="assets/global_distribution.png" alt="Global distribution of ChronoEarth-492K" style="max-width:680px;" />
+      <p class="fig-caption"><strong>Figure:</strong> Global spatial coverage of ChronoEarth-492K. Red markers indicate hyperspectral observation locations distributed across Africa (AF), Arctic (AC), East Asia (EA), Europe (EU), Latin America (LA), North America (NA), Oceania (OC), Southeast Asia (SEA), and Southwest Asia (SWA).</p>
+    </div>
+
+    <h3>Temporal Distribution</h3>
+    <div class="fig-wrap">
+      <img src="assets/stats-1.png" alt="Temporal distribution statistics" />
+      <p class="fig-caption"><strong>Figure:</strong> Temporal distribution of ChronoEarth-492K. (a) 69.5% of locations have a single observation; 28,786 locations have ≥3 timestamps enabling long-horizon modeling. (b) Time gaps between consecutive acquisitions are broadly distributed, from days to years. (c) Temporal coverage span per location — over one-third of multi-temporal sites span more than 2 years.</p>
+    </div>
+
+    <h3>Spectral Groups</h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Group</th>
+            <th>Band IDs</th>
+            <th>Wavelength Range</th>
+            <th># Channels</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="left"><span class="sg sg-vnir">VNIR</span></td><td>B010 – B057</td><td>447 – 925 nm</td><td>48</td></tr>
+          <tr><td class="left"><span class="sg sg-swir1">SWIR1</span></td><td>B081 – B097</td><td>952 – 1114 nm</td><td>17</td></tr>
+          <tr><td class="left"><span class="sg sg-swir2">SWIR2</span></td><td>B101 – B119</td><td>1154 – 1336 nm</td><td>19</td></tr>
+          <tr><td class="left"><span class="sg sg-swir3">SWIR3</span></td><td>B134 – B164</td><td>1487 – 1790 nm</td><td>31</td></tr>
+          <tr><td class="left"><span class="sg sg-swir4">SWIR4</span></td><td>B182 – B221</td><td>1971 – 2365 nm</td><td>40</td></tr>
+          <tr class="highlight-row"><td class="left"><strong>All</strong></td><td></td><td><strong>447 – 2365 nm</strong></td><td><strong>155</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Comparison with Existing Hyperspectral SSL Datasets</h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Dataset</th>
+            <th># Images</th>
+            <th>Patch Size</th>
+            <th>Sensor</th>
+            <th>Bands</th>
+            <th>GSD</th>
+            <th>Temporal Coverage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left">HySpecNet-11k</td>
+            <td>~11k</td><td>128×128</td><td>EnMAP</td><td>202</td><td>30 m</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td class="left">MSST</td>
+            <td>~20k</td><td>64×64</td><td>EnMAP</td><td>200</td><td>30 m</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td class="left">HSIHybrid</td>
+            <td>~4M</td><td>9×9</td><td>Multiple</td><td>Var.</td><td>—</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td class="left">HyperGlobal-450K</td>
+            <td>~447k</td><td>64×64</td><td>EO-1 &amp; GF-5B</td><td>242/330</td><td>30 m</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td class="left">SpectralEarth</td>
+            <td>~538k</td><td>128×128</td><td>EnMAP</td><td>202</td><td>30 m</td>
+            <td>2 Years</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="left"><strong>ChronoEarth-492K <span class="ours-badge">ours</span></strong></td>
+            <td><strong>~492k</strong></td><td><strong>128×128</strong></td><td><strong>EO-1</strong></td><td><strong>155</strong></td><td><strong>30 m</strong></td>
+            <td class="check"><strong>17 Years</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Benchmark ── -->
+<section id="benchmark">
+  <div class="container">
+    <h2>ChronoEarth-Benchmark</h2>
+
+    <p>ChronoEarth-Benchmark integrates six open-source geospatial annotation products, covering land cover, crop type, forest dynamics, and soil properties across multiple continents. Three task types are defined:</p>
+
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin:16px 0 24px;">
+      <div style="flex:1; min-width:220px; padding:16px 18px; background:var(--accent-light); border:1px solid var(--accent-border); border-radius:var(--radius);">
+        <span class="task-badge badge-static" style="margin-bottom:8px; display:inline-block;">Static</span>
+        <p style="font-size:13.5px; margin:0; color:#374151;">Single hyperspectral observation paired with the same-year label. Segmentation and multi-label classification.</p>
+      </div>
+      <div style="flex:1; min-width:220px; padding:16px 18px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:var(--radius);">
+        <span class="task-badge badge-sh" style="margin-bottom:8px; display:inline-block;">Short-Horizon (SH)</span>
+        <p style="font-size:13.5px; margin:0; color:#374151;">Multiple temporally adjacent observations for the same label (T ≤ 4). Models aggregate short-term context under full supervision.</p>
+      </div>
+      <div style="flex:1; min-width:220px; padding:16px 18px; background:#fdf2f8; border:1px solid #fbcfe8; border-radius:var(--radius);">
+        <span class="task-badge badge-lh" style="margin-bottom:8px; display:inline-block;">Long-Horizon (LH)</span>
+        <p style="font-size:13.5px; margin:0; color:#374151;">Future prediction: observations from 2001 to year <em>n</em> predict labels at year <em>n+1</em>. Tests temporal forecasting under partial supervision.</p>
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Dataset</th>
+            <th>Region</th>
+            <th>Classes</th>
+            <th>Task Type</th>
+            <th>Static samples</th>
+            <th>SH samples</th>
+            <th>LH samples</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left"><strong>GFC</strong></td>
+            <td>Global</td><td>1</td>
+            <td>Forest Change Detection</td>
+            <td>5,509</td><td>—</td><td>—</td>
+          </tr>
+          <tr>
+            <td class="left"><strong>ISDASoil</strong></td>
+            <td>Africa</td><td>8</td>
+            <td>Soil Classification</td>
+            <td>17,808</td><td>1,549</td><td>—</td>
+          </tr>
+          <tr>
+            <td class="left"><strong>CDL</strong></td>
+            <td>USA</td><td>12</td>
+            <td>Crop Type Segmentation</td>
+            <td>10,162</td><td>1,762</td><td>538</td>
+          </tr>
+          <tr>
+            <td class="left"><strong>CORINE</strong></td>
+            <td>Europe</td><td>19</td>
+            <td>Land Cover Classification</td>
+            <td>19,774</td><td>—</td><td>—</td>
+          </tr>
+          <tr>
+            <td class="left"><strong>NLCD-S</strong></td>
+            <td>USA</td><td>16</td>
+            <td>Land Cover Segmentation</td>
+            <td>55,476</td><td>4,077</td><td>1,812</td>
+          </tr>
+          <tr>
+            <td class="left"><strong>CLCD</strong></td>
+            <td>China</td><td>7</td>
+            <td>Land Cover Segmentation</td>
+            <td>17,614</td><td>1,069</td><td>460</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Benchmark Dataset Illustrations</h3>
+    <div class="fig-wrap">
+      <img src="assets/downstream_dataset-1.png" alt="Sample patches from each benchmark dataset" />
+      <p class="fig-caption"><strong>Figure:</strong> Example patches from the six benchmark datasets. (a) CDL crop type with soybean, wheat, and corn labels. (b) CLCD Chinese land cover including forest, grassland, and shrubland. (c) NLCD-S US land cover across 16 classes. (d) CORINE European land cover. (e) ISDASoil Africa soil texture classification. (f) GFC forest change detection (black = no change, white = change).</p>
+    </div>
+
+    <h3>Generalization Settings</h3>
+    <p><strong>Spatial-Temporal Generalization (CORINE).</strong> Data is split into temporal ID (2001–2012) and temporal OOD (2013–2017), then further divided by distance-aware spatial grouping. This yields four evaluation conditions: in-distribution (ID), temporal OOD (T-OOD), spatial OOD (S-OOD), and joint spatial-temporal OOD (ST-OOD).</p>
+    <p><strong>Continental Generalization (GFC).</strong> Models are trained on data-rich regions (Europe, North America, East Asia) and evaluated on underrepresented continents (Africa, Latin America, Oceania, Southwest Asia), simulating real-world annotation imbalance.</p>
+  </div>
+</section>
+
+<!-- ── Results ── -->
+<section id="results">
+  <div class="container">
+    <h2>Benchmark Results</h2>
+    <p>We evaluate six hyperspectral foundation models: <strong>SpectralViT</strong>, <strong>LESSViT</strong>, <strong>DOFA</strong>, <strong>HyperSigma</strong>, <strong>SatMAE</strong>, and <strong>DINOv3</strong> (adapted), all at ViT-Base scale. <em>Sup.</em> denotes supervised training from random initialization without self-supervised pretraining. <strong>Bold</strong> = best per column; <span class="degen">italic red ↓</span> = performance degrades when more frames are added.</p>
+
+    <!-- Static -->
+    <div class="sub-label">Static Tasks</div>
+    <h3>Static Task Results</h3>
+    <p>Self-supervised pretraining on ChronoEarth consistently improves over supervised counterparts. LESSViT achieves the best overall performance, demonstrating the benefit of architectures that explicitly model spatial–spectral interactions.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Method</th>
+            <th>CLCD<br/><small>mIoU ↑</small></th>
+            <th>CDL<br/><small>mIoU ↑</small></th>
+            <th>NLCD-S<br/><small>mIoU ↑</small></th>
+            <th>ISDASoil<br/><small>mAP ↑</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="left">DOFA</td><td>47.77</td><td>12.60</td><td>24.08</td><td>51.20</td></tr>
+          <tr><td class="left">HyperSigma</td><td>41.53</td><td>11.45</td><td>23.05</td><td>54.50</td></tr>
+          <tr><td class="left">DINOv3</td><td>47.10</td><td>11.65</td><td>24.46</td><td>50.90</td></tr>
+          <tr><td class="left">SatMAE</td><td>41.25</td><td>11.94</td><td>22.23</td><td>49.80</td></tr>
+          <tr class="sep-row"><td colspan="5" class="left">ChronoEarth Pretrained</td></tr>
+          <tr><td class="left"><em>Sup.</em> SpectralViT</td><td>48.01</td><td>15.50</td><td>29.10</td><td class="best">57.79</td></tr>
+          <tr><td class="left">SpectralViT</td><td>53.29</td><td>20.87</td><td>30.80</td><td>57.70</td></tr>
+          <tr><td class="left"><em>Sup.</em> LESSViT</td><td>37.66</td><td>3.49</td><td>19.05</td><td>50.15</td></tr>
+          <tr><td class="left">LESSViT</td><td class="best">54.84</td><td class="best">23.91</td><td class="best">33.59</td><td>56.02</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CORINE generalization -->
+    <div class="sub-label" style="margin-top:36px;">Generalization</div>
+    <h3>CORINE: Spatial-Temporal Generalization (mAP ↑)</h3>
+    <p>Performance degrades progressively from ID → T-OOD → S-OOD → ST-OOD, with spatial shift introducing the largest drop. SpectralViT and LESSViT pretrained on ChronoEarth achieve the highest scores across all OOD settings.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Method</th>
+            <th>ID</th><th>T-OOD</th><th>S-OOD</th><th>ST-OOD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="left">DOFA</td><td>70.08</td><td>62.77</td><td>57.85</td><td>51.80</td></tr>
+          <tr><td class="left">HyperSigma</td><td>59.99</td><td>58.09</td><td>54.75</td><td>49.18</td></tr>
+          <tr><td class="left">DINOv3</td><td>58.93</td><td>54.88</td><td>50.80</td><td>46.00</td></tr>
+          <tr><td class="left">SatMAE</td><td>67.26</td><td>58.69</td><td>55.77</td><td>47.20</td></tr>
+          <tr class="sep-row"><td colspan="5" class="left">ChronoEarth Pretrained</td></tr>
+          <tr><td class="left"><em>Sup.</em> SpectralViT</td><td>74.14</td><td>63.30</td><td>60.48</td><td>55.21</td></tr>
+          <tr><td class="left">SpectralViT</td><td>83.98</td><td class="best">68.52</td><td class="best">64.15</td><td>56.19</td></tr>
+          <tr><td class="left"><em>Sup.</em> LESSViT</td><td>55.47</td><td>51.34</td><td>49.01</td><td>47.20</td></tr>
+          <tr><td class="left">LESSViT</td><td class="best">84.07</td><td>68.22</td><td>62.52</td><td class="best">58.56</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>GFC: Cross-Continental Generalization</h3>
+    <p>All methods degrade from ID to OOD, reflecting the difficulty of cross-continental transfer under annotation imbalance. SpectralViT outperforms LESSViT in this sparse-supervision setting, where strong spatial aggregation matters more than fine-grained spectral modeling.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Method</th>
+            <th colspan="2">ID</th>
+            <th colspan="2">OOD (Cross-Continental)</th>
+          </tr>
+          <tr>
+            <th class="left"></th>
+            <th>mIoU ↑</th><th>F1 ↑</th>
+            <th>mIoU ↑</th><th>F1 ↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="left">DOFA</td><td>16.99</td><td>29.05</td><td>12.77</td><td>22.65</td></tr>
+          <tr><td class="left">DINOv3</td><td>15.91</td><td>27.45</td><td>11.51</td><td>20.64</td></tr>
+          <tr><td class="left">SatMAE</td><td>9.56</td><td>17.45</td><td>2.96</td><td>5.74</td></tr>
+          <tr class="sep-row"><td colspan="5" class="left">ChronoEarth Pretrained</td></tr>
+          <tr><td class="left"><em>Sup.</em> SpectralViT</td><td>23.26</td><td>37.74</td><td>16.04</td><td>27.65</td></tr>
+          <tr><td class="left">SpectralViT</td><td class="best">29.90</td><td class="best">46.04</td><td class="best">19.38</td><td class="best">32.47</td></tr>
+          <tr><td class="left"><em>Sup.</em> LESSViT</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+          <tr><td class="left">LESSViT</td><td>19.29</td><td>32.34</td><td>16.13</td><td>27.78</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cross-satellite -->
+    <div class="sub-label" style="margin-top:36px;">Cross-Satellite Transfer</div>
+    <h3>Cross-Satellite Generalization (SpectralViT backbone)</h3>
+    <p>Models pretrained on ChronoEarth (EO-1 Hyperion) are fine-tuned and evaluated on EnMAP-based downstream tasks from SpectralEarth. Despite originating from a different and decommissioned sensor, ChronoEarth representations match or exceed those trained on in-domain EnMAP data.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Pretraining Data</th>
+            <th>BDFORET<br/><small>mIoU ↑</small></th>
+            <th>BNETD<br/><small>mIoU ↑</small></th>
+            <th>EuroCrops<br/><small>mIoU ↑</small></th>
+            <th>CORINE<br/><small>mAP ↑</small></th>
+            <th>CDL<br/><small>mIoU ↑</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="left">SpectralEarth (EnMAP)</td><td>76.30</td><td class="best">49.46</td><td>69.34</td><td>75.33</td><td class="best">77.44</td></tr>
+          <tr class="highlight-row"><td class="left"><strong>ChronoEarth (ours)</strong></td><td class="best">76.39</td><td>44.34</td><td class="best">69.82</td><td class="best">79.02</td><td>73.66</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Short-horizon -->
+    <div class="sub-label" style="margin-top:36px;">Temporal Tasks</div>
+    <h3>Short-Horizon Tasks (mIoU / mAP ↑)</h3>
+    <p>Comparing T=1 (static) vs. T≤4 (multi-frame). Adding temporal context generally improves performance. The temporally pretrained SpectralViT consistently outperforms max-pooling and supervised attention aggregation, demonstrating the value of temporal SSL.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Method</th>
+            <th colspan="2">CLCD (mIoU ↑)</th>
+            <th colspan="2">CDL (mIoU ↑)</th>
+            <th colspan="2">NLCD-S (mIoU ↑)</th>
+            <th colspan="2">ISDASoil (mAP ↑)</th>
+          </tr>
+          <tr>
+            <th class="left"></th>
+            <th>T=1</th><th>T≤4</th>
+            <th>T=1</th><th>T≤4</th>
+            <th>T=1</th><th>T≤4</th>
+            <th>T=1</th><th>T≤4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left">DOFA <sub>max</sub></td>
+            <td>39.88</td><td class="degen">39.76 ↓</td>
+            <td>12.68</td><td>14.88</td>
+            <td>14.96</td><td>18.25</td>
+            <td>52.80</td><td class="degen">50.63 ↓</td>
+          </tr>
+          <tr>
+            <td class="left">DINOv3 <sub>max</sub></td>
+            <td>40.39</td><td class="degen">39.27 ↓</td>
+            <td>10.80</td><td>13.51</td>
+            <td>11.07</td><td>16.98</td>
+            <td>47.32</td><td>48.89</td>
+          </tr>
+          <tr>
+            <td class="left">SatMAE <sub>max</sub></td>
+            <td>34.88</td><td>37.78</td>
+            <td>12.34</td><td>12.41</td>
+            <td>15.14</td><td>16.83</td>
+            <td>49.53</td><td>50.99</td>
+          </tr>
+          <tr>
+            <td class="left">LESSViT <sub>max</sub></td>
+            <td class="best">51.19</td><td class="best">54.69</td>
+            <td class="best">24.80</td><td class="best">26.15</td>
+            <td class="best">30.58</td><td class="best">31.02</td>
+            <td class="best">57.33</td><td class="best">58.04</td>
+          </tr>
+          <tr class="sep-row"><td colspan="9" class="left">SpectralViT variants (ChronoEarth pretrained)</td></tr>
+          <tr>
+            <td class="left">SpectralViT <sub>max</sub></td>
+            <td>43.37</td><td>44.55</td>
+            <td>16.47</td><td>20.07</td>
+            <td>19.90</td><td class="degen">19.82 ↓</td>
+            <td>56.49</td><td>56.72</td>
+          </tr>
+          <tr>
+            <td class="left">SpectralViT <sub>attention</sub></td>
+            <td>—</td><td>43.77</td>
+            <td>—</td><td>18.97</td>
+            <td>—</td><td>22.88</td>
+            <td>—</td><td>48.98</td>
+          </tr>
+          <tr>
+            <td class="left">SpectralViT <sub>temporal SSL</sub></td>
+            <td>—</td><td>45.57</td>
+            <td>—</td><td>22.64</td>
+            <td>—</td><td>23.59</td>
+            <td>—</td><td>54.14</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Long-Horizon Tasks (mIoU ↑)</h3>
+    <p>Evaluating future state prediction under increasing temporal history (T≤2, T≤4, T≤8). Longer history generally helps for CLCD and NLCD-S (gradual land-cover change), while CDL (crop type) shows less stable gains — longer history may introduce outdated or noisy signals for time-sensitive targets. Temporal SSL pretraining provides consistent gains.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Method</th>
+            <th colspan="3">CLCD (mIoU ↑)</th>
+            <th colspan="3">NLCD-S (mIoU ↑)</th>
+            <th colspan="3">CDL (mIoU ↑)</th>
+          </tr>
+          <tr>
+            <th class="left"></th>
+            <th>T≤2</th><th>T≤4</th><th>T≤8</th>
+            <th>T≤2</th><th>T≤4</th><th>T≤8</th>
+            <th>T≤2</th><th>T≤4</th><th>T≤8</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left">DOFA <sub>max</sub></td>
+            <td>25.51</td><td>35.34</td><td>38.97</td>
+            <td>18.76</td><td>19.51</td><td>22.64</td>
+            <td>6.02</td><td>10.27</td><td>10.44</td>
+          </tr>
+          <tr>
+            <td class="left">DINOv3 <sub>max</sub></td>
+            <td>20.26</td><td>33.72</td><td>37.04</td>
+            <td>18.14</td><td>20.34</td><td>21.83</td>
+            <td>5.25</td><td>9.35</td><td>11.22</td>
+          </tr>
+          <tr>
+            <td class="left">SatMAE <sub>max</sub></td>
+            <td>20.00</td><td>31.25</td><td class="degen">29.85 ↓</td>
+            <td>13.66</td><td>18.22</td><td>19.40</td>
+            <td>5.43</td><td>10.19</td><td>11.80</td>
+          </tr>
+          <tr>
+            <td class="left">LESSViT <sub>max</sub></td>
+            <td>38.80</td><td>50.08</td><td>54.64</td>
+            <td>28.36</td><td>33.75</td><td>35.52</td>
+            <td>9.97</td><td class="best">18.83</td><td class="degen best">14.43 ↓</td>
+          </tr>
+          <tr class="sep-row"><td colspan="10" class="left">SpectralViT variants (ChronoEarth pretrained)</td></tr>
+          <tr>
+            <td class="left">SpectralViT <sub>max</sub></td>
+            <td>35.88</td><td>40.70</td><td>49.25</td>
+            <td>25.67</td><td>28.44</td><td>30.11</td>
+            <td class="best">11.95</td><td>13.60</td><td class="degen">11.37 ↓</td>
+          </tr>
+          <tr>
+            <td class="left">SpectralViT <sub>attention</sub></td>
+            <td>24.28</td><td>32.63</td><td>37.75</td>
+            <td>25.31</td><td>26.97</td><td>27.37</td>
+            <td>7.43</td><td class="degen">7.12 ↓</td><td class="degen">4.53 ↓</td>
+          </tr>
+          <tr>
+            <td class="left">SpectralViT <sub>temporal SSL</sub></td>
+            <td class="best">43.61</td><td class="best">51.26</td><td class="best">55.61</td>
+            <td class="best">37.34</td><td class="best">39.69</td><td class="best">40.76</td>
+            <td>5.92</td><td>10.35</td><td class="degen">9.55 ↓</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Citation ── -->
+<section id="citation">
+  <div class="container">
+    <h2>Citation</h2>
+    <p>If you find ChronoEarth-492K useful in your research, please cite our paper:</p>
+    <div class="citation-box">@article{chronoearth492k,
+  title   = {ChronoEarth-492K: A Large Scale and Long Horizon Spatiotemporal
+             Hyperspectral Earth Observation Dataset and Benchmark},
+  author  = {Si, Haozhe and Wan, Yuxuan and Wang, Yuqing and
+             Do, Minh and Zhao, Han},
+  journal = {arXiv preprint arXiv:PLACEHOLDER},
+  year    = {2025}
+}</div>
+
+    <div class="publication-links" style="margin-top:32px;">
+      <span class="link-block">
+        <a href="https://arxiv.org/abs/PLACEHOLDER" target="_blank">
+          <span class="icon"><i class="ai ai-arxiv"></i></span>
+          <span>arXiv</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href="https://huggingface.co/GFM-Bench/datasets" target="_blank">
+          <span class="icon"><img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HuggingFace" /></span>
+          <span>Dataset</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <a href="https://github.com/uiuctml/ChronoEarth492K" target="_blank">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>Code</span>
+        </a>
+      </span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <p>ChronoEarth-492K &ensp;·&ensp; University of Illinois Urbana-Champaign</p>
+    <p style="margin-top:6px; font-size:12px;">
+      <a href="https://github.com/uiuctml/ChronoEarth492K">GitHub</a> &ensp;&middot;&ensp;
+      <a href="https://huggingface.co/GFM-Bench/datasets">Hugging Face</a> &ensp;&middot;&ensp;
+      <a href="https://arxiv.org/abs/PLACEHOLDER">Paper</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  function toggleRelated(e) {
+    const toggle = document.getElementById('relatedToggle');
+    const menu   = document.getElementById('relatedMenu');
+    const open   = menu.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    if (open) {
+      const r = toggle.getBoundingClientRect();
+      menu.style.top  = r.bottom + 'px';
+      menu.style.left = r.left   + 'px';
+    }
+  }
+  document.addEventListener('click', function(e) {
+    if (!document.getElementById('relatedToggle').contains(e.target)) {
+      document.getElementById('relatedMenu').classList.remove('open');
+      document.getElementById('relatedToggle').classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>
