@@ -4,7 +4,7 @@
 <h3>A Large Scale and Long Horizon Spatiotemporal Hyperspectral Earth Observation Dataset and Benchmark</h3>
 
 [![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://uiuctml.github.io/ChronoEarth492K)
-[![arXiv](https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv)](https://arxiv.org/abs/PLACEHOLDER)
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv)](https://arxiv.org/abs/2605.15666)
 [![Hugging Face](https://img.shields.io/badge/HuggingFace-Dataset-purple?logo=huggingface&logoColor=yellow)](https://huggingface.co/GFM-Bench/datasets)
 [![GitHub](https://img.shields.io/badge/GitHub-ChronoEarth492K-green?logo=github&logoColor=white)](https://github.com/uiuctml/ChronoEarth492K)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
