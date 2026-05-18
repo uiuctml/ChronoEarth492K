@@ -202,11 +202,14 @@ python evaluation/launchers/launch_temporal_finetune_sweep.py \
 If you find ChronoEarth-492K useful in your research, please cite our paper:
 
 ```bibtex
-@article{chronoearth492k,
-  title   = {ChronoEarth-492K: A Large Scale and Long Horizon Spatiotemporal Hyperspectral Earth Observation Dataset and Benchmark},
-  author  = {Si, Haozhe and Wan, Yuxuan and Wang, Yuqing and Do, Minh and Zhao, Han},
-  journal = {arXiv preprint arXiv:PLACEHOLDER},
-  year    = {2025}
+@misc{si2026chronoearth492klargescalelong,
+      title={ChronoEarth-492K: A Large Scale and Long Horizon Spatiotemporal Hyperspectral Earth Observation Dataset and Benchmark}, 
+      author={Haozhe Si and Yuxuan Wan and Yuqing Wang and Minh Do and Han Zhao},
+      year={2026},
+      eprint={2605.15666},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2605.15666}, 
 }
 ```
 
