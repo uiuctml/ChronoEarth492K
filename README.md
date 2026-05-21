@@ -26,7 +26,7 @@ Yuqing Wang,
 
 | Property | Value |
 |---|---|
-| **Locations** | 492K+ unique spatial locations |
+| **Locations** | 492K+ spatial locations |
 | **Spectral Bands** | 155 hyperspectral bands (447–2365 nm) |
 | **Spatial Resolution** | 30 m / pixel |
 | **Temporal Coverage** | Multi-year, multiple revisits per location |
